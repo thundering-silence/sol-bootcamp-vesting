@@ -14,16 +14,178 @@ export type Tokenvesting = {
   },
   "instructions": [
     {
-      "name": "close",
+      "name": "claimTokens",
       "discriminator": [
-        98,
-        165,
-        201,
-        177,
         108,
-        65,
-        206,
-        96
+        216,
+        210,
+        231,
+        0,
+        212,
+        42,
+        64
+      ],
+      "accounts": [
+        {
+          "name": "beneficiary",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "employeeAccount"
+          ]
+        },
+        {
+          "name": "employeeAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  101,
+                  95,
+                  118,
+                  101,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "beneficiary"
+              },
+              {
+                "kind": "account",
+                "path": "vestingAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vestingAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "companyName"
+              }
+            ]
+          },
+          "relations": [
+            "employeeAccount"
+          ]
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "vestingAccount"
+          ]
+        },
+        {
+          "name": "treasuryTokenAccount",
+          "writable": true,
+          "relations": [
+            "vestingAccount"
+          ]
+        },
+        {
+          "name": "employeeTokenAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "beneficiary"
+              },
+              {
+                "kind": "account",
+                "path": "tokenProgram"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "tokenProgram"
+        },
+        {
+          "name": "associatedTokenProgram",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        }
+      ],
+      "args": [
+        {
+          "name": "companyName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createCompanyVestingAccount",
+      "discriminator": [
+        137,
+        33,
+        178,
+        217,
+        254,
+        137,
+        157,
+        36
       ],
       "accounts": [
         {
@@ -32,131 +194,280 @@ export type Tokenvesting = {
           "signer": true
         },
         {
-          "name": "tokenvesting",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "decrement",
-      "discriminator": [
-        106,
-        227,
-        168,
-        59,
-        248,
-        27,
-        150,
-        101
-      ],
-      "accounts": [
-        {
-          "name": "tokenvesting",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "increment",
-      "discriminator": [
-        11,
-        18,
-        104,
-        9,
-        104,
-        174,
-        59,
-        33
-      ],
-      "accounts": [
-        {
-          "name": "tokenvesting",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initialize",
-      "discriminator": [
-        175,
-        175,
-        109,
-        31,
-        13,
-        152,
-        155,
-        237
-      ],
-      "accounts": [
-        {
-          "name": "payer",
+          "name": "vestingAccount",
           "writable": true,
-          "signer": true
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "companyName"
+              }
+            ]
+          }
         },
         {
-          "name": "tokenvesting",
+          "name": "mint"
+        },
+        {
+          "name": "treasuryTokenAccount",
           "writable": true,
-          "signer": true
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  101,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103,
+                  95,
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "companyName"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "tokenProgram"
+        }
+      ],
+      "args": [
+        {
+          "name": "companyName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "createEmployeeVestingAccount",
+      "discriminator": [
+        76,
+        78,
+        223,
+        32,
+        113,
+        78,
+        252,
+        222
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "vestingAccount"
+          ]
+        },
+        {
+          "name": "beneficiary"
+        },
+        {
+          "name": "vestingAccount"
+        },
+        {
+          "name": "employeeAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  109,
+                  112,
+                  108,
+                  111,
+                  121,
+                  101,
+                  101,
+                  95,
+                  118,
+                  101,
+                  115,
+                  116,
+                  105,
+                  110,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "beneficiary"
+              },
+              {
+                "kind": "account",
+                "path": "vestingAccount"
+              }
+            ]
+          }
         },
         {
           "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
       ],
-      "args": []
-    },
-    {
-      "name": "set",
-      "discriminator": [
-        198,
-        51,
-        53,
-        241,
-        116,
-        29,
-        126,
-        194
-      ],
-      "accounts": [
-        {
-          "name": "tokenvesting",
-          "writable": true
-        }
-      ],
       "args": [
         {
-          "name": "value",
-          "type": "u8"
+          "name": "startTime",
+          "type": "i64"
+        },
+        {
+          "name": "endTime",
+          "type": "i64"
+        },
+        {
+          "name": "cliffTime",
+          "type": "i64"
+        },
+        {
+          "name": "total",
+          "type": "u64"
         }
       ]
     }
   ],
   "accounts": [
     {
-      "name": "tokenvesting",
+      "name": "companyVestingAccount",
       "discriminator": [
-        255,
-        176,
-        4,
-        245,
-        188,
-        253,
-        124,
-        25
+        96,
+        79,
+        100,
+        173,
+        254,
+        50,
+        223,
+        3
       ]
+    },
+    {
+      "name": "employeeVestingAccount",
+      "discriminator": [
+        2,
+        60,
+        155,
+        131,
+        145,
+        78,
+        88,
+        101
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "cliffNotPast",
+      "msg": "Claim not available yet"
+    },
+    {
+      "code": 6001,
+      "name": "depleted",
+      "msg": "Vault depleted"
+    },
+    {
+      "code": 6002,
+      "name": "invalidAmount",
+      "msg": "Invalid amount"
+    },
+    {
+      "code": 6003,
+      "name": "invalidCliffTime",
+      "msg": "Invalid cliff time"
+    },
+    {
+      "code": 6004,
+      "name": "invalidVestingTime",
+      "msg": "Invalid vesting time"
     }
   ],
   "types": [
     {
-      "name": "tokenvesting",
+      "name": "companyVestingAccount",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "count",
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasuryTokenAccount",
+            "type": "pubkey"
+          },
+          {
+            "name": "companyName",
+            "type": "string"
+          },
+          {
+            "name": "treasuryBump",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "employeeVestingAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "beneficiary",
+            "type": "pubkey"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "endTime",
+            "type": "i64"
+          },
+          {
+            "name": "cliff",
+            "type": "i64"
+          },
+          {
+            "name": "vestingAccount",
+            "type": "pubkey"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "totalWithdrawn",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
             "type": "u8"
           }
         ]
